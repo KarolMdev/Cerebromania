@@ -29,7 +29,6 @@
       justify-content: center;
       gap: 15px;
       margin-bottom: 30px;
-      position: relative; /* Para evitar que los elementos internos se muevan */
     }
 
     .imagen {
@@ -40,7 +39,6 @@
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       transition: transform 0.2s ease;
       cursor: grab;
-      z-index: 10; /* Asegura que la imagen esté por encima de otros elementos */
     }
 
     .imagen:hover {
@@ -229,7 +227,7 @@
   const funcionesContainer = document.getElementById("funciones");
 
   funciones.forEach(({ id, pista }) => {
-    funcionesContainer.innerHTML += ` 
+    funcionesContainer.innerHTML += `
       <div class="zona-container">
         <div class="pista">Función: ${pista}</div>
         <div class="zona-drop" ondrop="soltar(event)" ondragover="permitirSoltar(event)" data-correcta="${id}" id="zona-${id}"></div>
