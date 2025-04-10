@@ -250,37 +250,52 @@
     touchElemento.style.top = `${touch.pageY - 45}px`;
   }
 
-  function touchEnd(e) {
+ function touchEnd(e) {
   const touch = e.changedTouches[0];
-  const elem = document.elementFromPoint(touch.clientX, touch.clientY);
   const imagen = document.getElementById(idArrastrado);
+  const dropZones = document.querySelectorAll(".zona-drop");
+  let colocado = false;
 
-  if (elem && elem.classList.contains("zona-drop")) {
-    const zona = elem;
-    const correcta = zona.getAttribute("data-correcta");
-    const mensaje = document.getElementById(`msg-${correcta}`);
+  dropZones.forEach(zona => {
+    const rect = zona.getBoundingClientRect();
+    if (
+      touch.clientX >= rect.left &&
+      touch.clientX <= rect.right &&
+      touch.clientY >= rect.top &&
+      touch.clientY <= rect.bottom
+    ) {
+      const correcta = zona.getAttribute("data-correcta");
+      const mensaje = document.getElementById(`msg-${correcta}`);
 
-    zona.innerHTML = "";
+      zona.innerHTML = "";
 
-    if (idArrastrado === correcta) {
-      zona.classList.remove("incorrecto");
-      zona.classList.add("correcto");
-      zona.appendChild(imagen);
+      if (idArrastrado === correcta) {
+        zona.classList.remove("incorrecto");
+        zona.classList.add("correcto");
+        zona.appendChild(imagen);
 
-      imagen.setAttribute("draggable", false);
-      imagen.ontouchstart = null;
-      imagen.ontouchmove = null;
-      imagen.ontouchend = null;
+        imagen.setAttribute("draggable", false);
+        imagen.ontouchstart = null;
+        imagen.ontouchmove = null;
+        imagen.ontouchend = null;
 
-      mensaje.textContent = "✔️ ¡Bien hecho!";
-    } else {
-      zona.classList.remove("correcto");
-      zona.classList.add("incorrecto");
-      mensaje.textContent = "❌ Esa imagen no corresponde.";
+        mensaje.textContent = "✔️ ¡Bien hecho!";
+      } else {
+        zona.classList.remove("correcto");
+        zona.classList.add("incorrecto");
+        mensaje.textContent = "❌ Esa imagen no corresponde.";
+      }
+
+      colocado = true;
     }
+  });
+
+  // Si no cayó en ninguna zona, volver a su posición original
+  if (!colocado) {
+    contenedorImagenes.appendChild(imagen);
   }
 
-  // Restaurar estilos independientemente de si fue correcto o no
+  // Siempre limpiar estilos temporales
   if (touchElemento) {
     touchElemento.style.position = "";
     touchElemento.style.zIndex = "";
@@ -288,6 +303,7 @@
     touchElemento.style.top = "";
   }
 }
+
 
 
 
