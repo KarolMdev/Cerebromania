@@ -237,55 +237,59 @@
   });
 
   let idArrastrado;
+  let draggingImage = null;  // Variable para saber qué imagen se está tocando/arrastrando
 
+  // Detecta el inicio del toque o arrastre
   function empezarArrastre(event) {
+    event.preventDefault();
     idArrastrado = event.target.id;
+    draggingImage = event.target;
+    
+    // Si es móvil, se activa el movimiento de la imagen
+    if (event.type === "touchstart") {
+      const touch = event.touches[0];  // Para obtener la posición del toque
+      draggingImage.style.position = "absolute";
+      draggingImage.style.zIndex = "999";
+      draggingImage.style.left = `${touch.pageX - 45}px`;
+      draggingImage.style.top = `${touch.pageY - 45}px`;
+    }
   }
 
+  // Permite soltar la imagen
   function permitirSoltar(event) {
     event.preventDefault();
   }
 
+  // Soltar la imagen
   function soltar(event) {
     event.preventDefault();
     const zona = event.currentTarget;
     const correcta = zona.getAttribute('data-correcta');
     const mensaje = document.getElementById(`msg-${correcta}`);
-    const imagen = document.getElementById(idArrastrado);
-
-    zona.innerHTML = '';
 
     if (idArrastrado === correcta) {
       zona.classList.remove('incorrecto');
       zona.classList.add('correcto');
-      zona.appendChild(imagen);
-      imagen.setAttribute('draggable', false);
+      zona.innerHTML = `<img src="resource/${idArrastrado}.jpg" class="imagen">`;
       mensaje.textContent = "✔️ ¡Bien hecho!";
     } else {
       zona.classList.remove('correcto');
       zona.classList.add('incorrecto');
       mensaje.textContent = "❌ Esa imagen no corresponde.";
-      zona.textContent = ""; // Reset zone
     }
+
+    // Reset
+    draggingImage = null;
   }
 
+  // Reiniciar juego
   function reiniciarJuego() {
     const contenedorImagenes = document.getElementById('imagenes');
     funciones.forEach(f => {
       const imagen = document.getElementById(f.id);
-      if (!imagen) {
-        const nuevaImg = document.createElement("img");
-        nuevaImg.src = `resource/${f.id}.jpg`;
-        nuevaImg.id = f.id;
-        nuevaImg.className = "imagen";
-        nuevaImg.setAttribute("draggable", "true");
-        nuevaImg.ondragstart = empezarArrastre;
-        contenedorImagenes.appendChild(nuevaImg);
-      } else {
-        imagen.setAttribute('draggable', 'true');
-        imagen.style.display = 'inline-block';
-        contenedorImagenes.appendChild(imagen);
-      }
+      imagen.style.position = '';  // Resetear posición de las imágenes
+      imagen.style.zIndex = '';  // Resetear Z-index
+      contenedorImagenes.appendChild(imagen);
     });
 
     funciones.forEach(f => {
@@ -296,7 +300,23 @@
       mensaje.textContent = '';
     });
   }
+
+  // Eventos touch para móviles
+  window.addEventListener('touchstart', empezarArrastre, { passive: false });
+  window.addEventListener('touchmove', (event) => {
+    if (draggingImage) {
+      const touch = event.touches[0];
+      draggingImage.style.left = `${touch.pageX - 45}px`;
+      draggingImage.style.top = `${touch.pageY - 45}px`;
+    }
+  }, { passive: false });
+
+  window.addEventListener('touchend', soltar, { passive: false });
+
+  // Eventos de arrastre para escritorio
+  window.addEventListener('dragstart', empezarArrastre);
 </script>
+
 
 </body>
 </html>
