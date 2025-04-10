@@ -251,17 +251,45 @@
   }
 
   function touchEnd(e) {
-    const touch = e.changedTouches[0];
-    const elem = document.elementFromPoint(touch.clientX, touch.clientY);
-    if (elem && elem.classList.contains("zona-drop")) {
-      soltar({ preventDefault: () => {}, currentTarget: elem });
-    }
+  const touch = e.changedTouches[0];
+  const elem = document.elementFromPoint(touch.clientX, touch.clientY);
+  const imagen = document.getElementById(idArrastrado);
 
+  if (elem && elem.classList.contains("zona-drop")) {
+    const zona = elem;
+    const correcta = zona.getAttribute("data-correcta");
+    const mensaje = document.getElementById(`msg-${correcta}`);
+
+    zona.innerHTML = "";
+
+    if (idArrastrado === correcta) {
+      zona.classList.remove("incorrecto");
+      zona.classList.add("correcto");
+      zona.appendChild(imagen);
+
+      // ✅ Bloqueamos la imagen correctamente colocada
+      imagen.setAttribute("draggable", false);
+      imagen.ontouchstart = null;
+      imagen.ontouchmove = null;
+      imagen.ontouchend = null;
+
+      mensaje.textContent = "✔️ ¡Bien hecho!";
+    } else {
+      zona.classList.remove("correcto");
+      zona.classList.add("incorrecto");
+      mensaje.textContent = "❌ Esa imagen no corresponde.";
+    }
+  }
+
+  // Reset estilos
+  if (touchElemento) {
     touchElemento.style.position = "";
     touchElemento.style.zIndex = "";
     touchElemento.style.left = "";
     touchElemento.style.top = "";
   }
+}
+
 
   function reiniciarJuego() {
     funciones.forEach(f => {
