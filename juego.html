@@ -272,11 +272,6 @@
       imagen.ontouchmove = null;
       imagen.ontouchend = null;
 
-      imagen.style.position = "";
-      imagen.style.zIndex = "";
-      imagen.style.left = "";
-      imagen.style.top = "";
-
       mensaje.textContent = "✔️ ¡Bien hecho!";
     } else {
       zona.classList.remove("correcto");
@@ -285,6 +280,7 @@
     }
   }
 
+  // Restaurar estilos independientemente de si fue correcto o no
   if (touchElemento) {
     touchElemento.style.position = "";
     touchElemento.style.zIndex = "";
@@ -292,6 +288,7 @@
     touchElemento.style.top = "";
   }
 }
+
 
 
   function reiniciarJuego() {
