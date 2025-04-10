@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cerebromanía</title>
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+  <div class="contenedor">
+    <h1>Cerebromanía</h1>
+
+    <div style="text-align: center; margin-bottom: 20px;">
+      <a href="juego.html" class="btn-juego">🎮 Ir al juego</a>
+    </div>
+    
+    <div class="cerebro-container">
+      <img src="img/cerebro.jpg" alt="Cerebro" id="imagen-cerebro">
+
+      <!-- Puntos interactivos -->
+      <div class="punto" style="top: 40%; left: 10%;" data-parte="Lóbulo Frontal"></div>
+      <div class="punto" style="top: 20%; left: 45%;" data-parte="Lóbulo Parietal"></div>
+      <div class="punto" style="top: 45%; left: 85%;" data-parte="Lóbulo Occipital"></div>
+      <div class="punto" style="top: 60%; left: 25%;" data-parte="Lóbulo Temporal"></div>
+      <div class="punto" style="top: 65%; left: 75%;" data-parte="Cerebelo"></div>
+      <div class="punto" style="top: 56%; left: 55%;" data-parte="Mesencéfalo"></div>
+      <div class="punto" style="top: 30%; left: 50%;" data-parte="Corteza Cerebral"></div>
+      <div class="punto" style="top: 65%; left: 53%;" data-parte="Puente de varolio"></div>
+      <div class="punto" style="top: 53%; left: 45%;" data-parte="Sistema límbico"></div>
+      <div class="punto" style="top: 45%; left: 50%;" data-parte="Ganglios Basales"></div>
+      <div class="punto" style="top: 48%; left: 40%;" data-parte="Diencéfalo"></div>
+      <div class="punto" style="top: 71%; left: 60%;" data-parte="Bulbo raquídeo"></div>
+      <div class="punto" style="top: 85%; left: 68%;" data-parte="Médula Espinal"></div>
+    </div>
+
+    <div id="info-container">
+      <h2 id="titulo-parte">Selecciona una parte del cerebro</h2>
+      <img id="imagen-parte" src="" alt="Parte del cerebro">
+      <p id="descripcion-parte">Haz clic en un punto del cerebro para ver información detallada.</p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

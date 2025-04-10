@@ -1,0 +1,249 @@
+/* Base styles */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #2b5876, #4e4376);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+.btn-juego {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.btn-juego:hover {
+  background-color: #218838;
+}
+
+h1 {
+  margin-top: 30px;
+  font-size: 3rem;
+  color: #fff;
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.4);
+  animation: slideDown 1s ease-out;
+  text-align: center;
+}
+
+.contenedor {
+  width: 90%;
+  max-width: 1000px;
+  margin: 20px auto;
+  text-align: center;
+}
+
+.cerebro-container {
+  position: relative;
+  display: inline-block;
+  margin: 20px 0;
+  animation: fadeIn 1.2s ease;
+}
+
+#descripcion-parte {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #444;
+  text-align: center;
+  margin: 0 auto;
+  max-width: 600px;
+}
+
+#imagen-cerebro {
+  width: 100%;
+  max-width: 700px;
+  border-radius: 20px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+  transition: transform 0.5s ease;
+}
+
+#imagen-cerebro:hover {
+  transform: scale(1.01);
+}
+
+.punto {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: #ff4081;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(255, 64, 129, 0.7);
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  z-index: 10;
+}
+
+.punto:hover {
+  transform: scale(1.6);
+  background-color: #ff80ab;
+}
+
+.punto::after {
+  content: attr(data-parte);
+  position: absolute;
+  top: -30px;
+  left: 25px;
+  background-color: rgba(0, 0, 0, 0.85);
+  color: #fff;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  border-radius: 8px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.punto:hover::after {
+  opacity: 1;
+}
+
+#info-container {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 0 30px rgba(0,0,0,0.3);
+  max-width: 750px;
+  margin: 30px auto 50px;
+  animation: fadeInUp 1s ease;
+  color: #fff;
+}
+
+#titulo-parte {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  color: #ffeb3b;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+}
+
+#imagen-parte {
+  width: 100%;
+  max-width: 550px;
+  margin: 20px 0;
+  border-radius: 14px;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+#descripcion-parte {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #333; /* Texto oscuro para mayor contraste */
+  padding: 15px 20px;
+  background: #fff; /* Fondo blanco para hacer el texto legible */
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Sombra suave para resaltar */
+  margin-top: 15px;
+  text-align: justify;
+  animation: fadeIn 1s ease;
+  max-width: 700px; /* Ancho máximo para mantener el texto organizado */
+}
+
+/* Animaciones */
+@keyframes slideDown {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  /* Para pantallas pequeñas (como tablets y móviles) */
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  .contenedor {
+    width: 95%;
+    margin: 20px;
+  }
+
+  #descripcion-parte {
+    font-size: 1rem;
+    max-width: 100%;
+    padding: 10px;
+  }
+
+  #imagen-cerebro {
+    max-width: 100%;
+  }
+
+  #imagen-parte {
+    max-width: 100%;
+  }
+
+  .punto {
+    width: 15px;
+    height: 15px;
+  }
+
+  .punto::after {
+    font-size: 0.75rem;
+    left: 10px;
+    top: -20px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Para pantallas aún más pequeñas (móviles) */
+  h1 {
+    font-size: 2rem;
+  }
+
+  #info-container {
+    padding: 15px;
+  }
+
+  #titulo-parte {
+    font-size: 1.5rem;
+  }
+
+  #descripcion-parte {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+
+  .punto {
+    width: 12px;
+    height: 12px;
+  }
+}

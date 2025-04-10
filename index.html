@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cerebromanía - Inicio</title>
+  <style>
+    /* Fondo degradado y animaciones de entrada */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #2b5876, #4e4376);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+      overflow: hidden;
+      animation: fadeInBg 1.5s ease-out;
+    }
+
+    /* Animación de aparición para el título */
+    h1 {
+      font-size: 5vw; /* Usando unidades relativas para hacerlo responsivo */
+      color: #ffeb3b;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.4);
+      animation: slideDown 1s ease-out;
+      margin-bottom: 2rem; /* Uso de rem para márgenes */
+    }
+
+    /* Animación para el párrafo */
+    p {
+      font-size: 1.5rem;
+      max-width: 80%; /* Limitar el ancho al 80% de la pantalla */
+      margin-bottom: 3rem;
+      color: #eee;
+      line-height: 1.8;
+      animation: fadeIn 1.5s ease-out;
+    }
+
+    /* Estilos del botón */
+    .boton-iniciar {
+      padding: 1rem 2rem; /* Tamaños más adaptables */
+      font-size: 1.2rem;
+      background-color: #ff4081;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+      box-shadow: 0 0 10px rgba(255, 64, 129, 0.5);
+      animation: fadeInUp 1s ease-out;
+    }
+
+    /* Efecto hover en el botón */
+    .boton-iniciar:hover {
+      background-color: #ff80ab;
+      transform: scale(1.1);
+    }
+
+    /* Animación de fondo */
+    @keyframes fadeInBg {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* Animación de deslizamiento hacia abajo para el título */
+    @keyframes slideDown {
+      from {
+        transform: translateY(-50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    /* Animación de aparición para los párrafos */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* Animación de subida para el botón */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Media Queries para dispositivos pequeños */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 8vw; /* Reducir el tamaño del título en pantallas pequeñas */
+      }
+      p {
+        font-size: 1.2rem;
+        max-width: 90%; /* Aumentar el ancho en pantallas más pequeñas */
+      }
+      .boton-iniciar {
+        padding: 1rem 2rem;
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 10vw; /* Título aún más pequeño en pantallas muy pequeñas */
+      }
+      p {
+        font-size: 1rem;
+        margin-bottom: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Cerebromanía</h1>
+  <p>Todo lo que piensas, sientes y haces nace en un solo lugar: tu cerebro. Conoce sus partes y sorpréndete con lo que es capaz de hacer.</p>
+  <a href="cerebro.html">
+    <button class="boton-iniciar">Iniciar</button>
+  </a>
+</body>
+</html>
