@@ -12,6 +12,7 @@
       background-color: #f0f4f8;
       margin: 0;
       padding: 20px;
+      touch-action: pan-y;
     }
 
     h2 {
@@ -303,26 +304,32 @@
     touchElemento.style.top = "";
   }
 }
+function reiniciarJuego() {
+  funciones.forEach(f => {
+    const imagen = document.getElementById(f.id);
+    imagen.setAttribute("draggable", true);
+    imagen.style.position = "";
+    imagen.style.zIndex = "";
+    imagen.style.left = "";
+    imagen.style.top = "";
 
+    // Reactivar eventos touch
+    imagen.ontouchstart = touchStart;
+    imagen.ontouchmove = touchMove;
+    imagen.ontouchend = touchEnd;
 
+    contenedorImagenes.appendChild(imagen);
+  });
 
+  funciones.forEach(f => {
+    const zona = document.getElementById(`zona-${f.id}`);
+    const mensaje = document.getElementById(`msg-${f.id}`);
+    zona.className = "zona-drop";
+    zona.innerHTML = '';
+    mensaje.textContent = '';
+  });
+}
 
-  function reiniciarJuego() {
-    funciones.forEach(f => {
-      const imagen = document.getElementById(f.id);
-      imagen.setAttribute("draggable", true);
-      imagen.style.display = "inline-block";
-      contenedorImagenes.appendChild(imagen);
-    });
-
-    funciones.forEach(f => {
-      const zona = document.getElementById(`zona-${f.id}`);
-      const mensaje = document.getElementById(`msg-${f.id}`);
-      zona.className = "zona-drop";
-      zona.innerHTML = '';
-      mensaje.textContent = '';
-    });
-  }
 </script>
 
 </body>
