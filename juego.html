@@ -29,6 +29,7 @@
       justify-content: center;
       gap: 15px;
       margin-bottom: 30px;
+      position: relative; /* Para evitar que los elementos internos se muevan */
     }
 
     .imagen {
@@ -39,6 +40,7 @@
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       transition: transform 0.2s ease;
       cursor: grab;
+      z-index: 10; /* Asegura que la imagen esté por encima de otros elementos */
     }
 
     .imagen:hover {
@@ -227,7 +229,7 @@
   const funcionesContainer = document.getElementById("funciones");
 
   funciones.forEach(({ id, pista }) => {
-    funcionesContainer.innerHTML += `
+    funcionesContainer.innerHTML += ` 
       <div class="zona-container">
         <div class="pista">Función: ${pista}</div>
         <div class="zona-drop" ondrop="soltar(event)" ondragover="permitirSoltar(event)" data-correcta="${id}" id="zona-${id}"></div>
@@ -237,59 +239,55 @@
   });
 
   let idArrastrado;
-  let draggingImage = null;  // Variable para saber qué imagen se está tocando/arrastrando
 
-  // Detecta el inicio del toque o arrastre
   function empezarArrastre(event) {
-    event.preventDefault();
     idArrastrado = event.target.id;
-    draggingImage = event.target;
-    
-    // Si es móvil, se activa el movimiento de la imagen
-    if (event.type === "touchstart") {
-      const touch = event.touches[0];  // Para obtener la posición del toque
-      draggingImage.style.position = "absolute";
-      draggingImage.style.zIndex = "999";
-      draggingImage.style.left = `${touch.pageX - 45}px`;
-      draggingImage.style.top = `${touch.pageY - 45}px`;
-    }
   }
 
-  // Permite soltar la imagen
   function permitirSoltar(event) {
     event.preventDefault();
   }
 
-  // Soltar la imagen
   function soltar(event) {
     event.preventDefault();
     const zona = event.currentTarget;
     const correcta = zona.getAttribute('data-correcta');
     const mensaje = document.getElementById(`msg-${correcta}`);
+    const imagen = document.getElementById(idArrastrado);
+
+    zona.innerHTML = '';
 
     if (idArrastrado === correcta) {
       zona.classList.remove('incorrecto');
       zona.classList.add('correcto');
-      zona.innerHTML = `<img src="resource/${idArrastrado}.jpg" class="imagen">`;
+      zona.appendChild(imagen);
+      imagen.setAttribute('draggable', false);
       mensaje.textContent = "✔️ ¡Bien hecho!";
     } else {
       zona.classList.remove('correcto');
       zona.classList.add('incorrecto');
       mensaje.textContent = "❌ Esa imagen no corresponde.";
+      zona.textContent = ""; // Reset zone
     }
-
-    // Reset
-    draggingImage = null;
   }
 
-  // Reiniciar juego
   function reiniciarJuego() {
     const contenedorImagenes = document.getElementById('imagenes');
     funciones.forEach(f => {
       const imagen = document.getElementById(f.id);
-      imagen.style.position = '';  // Resetear posición de las imágenes
-      imagen.style.zIndex = '';  // Resetear Z-index
-      contenedorImagenes.appendChild(imagen);
+      if (!imagen) {
+        const nuevaImg = document.createElement("img");
+        nuevaImg.src = `resource/${f.id}.jpg`;
+        nuevaImg.id = f.id;
+        nuevaImg.className = "imagen";
+        nuevaImg.setAttribute("draggable", "true");
+        nuevaImg.ondragstart = empezarArrastre;
+        contenedorImagenes.appendChild(nuevaImg);
+      } else {
+        imagen.setAttribute('draggable', 'true');
+        imagen.style.display = 'inline-block';
+        contenedorImagenes.appendChild(imagen);
+      }
     });
 
     funciones.forEach(f => {
@@ -300,23 +298,7 @@
       mensaje.textContent = '';
     });
   }
-
-  // Eventos touch para móviles
-  window.addEventListener('touchstart', empezarArrastre, { passive: false });
-  window.addEventListener('touchmove', (event) => {
-    if (draggingImage) {
-      const touch = event.touches[0];
-      draggingImage.style.left = `${touch.pageX - 45}px`;
-      draggingImage.style.top = `${touch.pageY - 45}px`;
-    }
-  }, { passive: false });
-
-  window.addEventListener('touchend', soltar, { passive: false });
-
-  // Eventos de arrastre para escritorio
-  window.addEventListener('dragstart', empezarArrastre);
 </script>
-
 
 </body>
 </html>
