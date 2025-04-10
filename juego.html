@@ -5,7 +5,144 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Partes del Cerebro - Juego Educativo</title>
   <style>
-    /* ... estilos existentes (sin cambios) ... */
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f4f8;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+
+    .contenedor {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .imagen {
+      width: 90px;
+      height: 90px;
+      object-fit: cover;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease;
+      cursor: grab;
+      touch-action: none;
+    }
+
+    .imagen:hover {
+      transform: scale(1.05);
+    }
+
+    .zona-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #fff;
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      min-width: 250px;
+    }
+
+    .pista {
+      font-size: 14px;
+      text-align: center;
+      color: #444;
+      margin-bottom: 10px;
+      min-height: 60px;
+    }
+
+    .zona-drop {
+      width: 200px;
+      height: 110px;
+      border: 3px dashed #aaa;
+      background-color: #fefefe;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      text-align: center;
+      transition: background-color 0.3s ease;
+      overflow: hidden;
+    }
+
+    .mensaje {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #444;
+      font-weight: bold;
+    }
+
+    .correcto {
+      background-color: #c7f9cc !important;
+      color: #155724;
+    }
+
+    .incorrecto {
+      background-color: #f8d7da !important;
+      color: #721c24;
+    }
+
+    .funciones-scroll {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .boton-reiniciar {
+      display: block;
+      margin: 30px auto 10px auto;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .boton-reiniciar:hover {
+      background-color: #0056b3;
+    }
+
+    @media (max-width: 768px) {
+      .imagen {
+        width: 70px;
+        height: 70px;
+      }
+
+      .zona-drop {
+        width: 90%;
+        height: 100px;
+      }
+
+      .zona-container {
+        width: 100%;
+      }
+
+      .pista {
+        font-size: 13px;
+      }
+
+      .funciones-scroll {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -15,30 +152,32 @@
 <button class="boton-reiniciar" onclick="reiniciarJuego()">🔁 Reiniciar Juego</button>
 
 <div class="contenedor" id="imagenes">
-  <!-- Imágenes (sin cambios en HTML) -->
+  <!-- Las imágenes se insertan aquí -->
 </div>
 
 <div class="funciones-scroll" id="funciones"></div>
 
 <script>
   const funciones = [
-    { id: "CortezaCerebral", pista: "Procesamiento de información compleja..." },
-    { id: "lobuloFrontal", pista: "Toma de decisiones, razonamiento..." },
-    { id: "lobuloParietal", pista: "Procesamiento de información sensorial..." },
-    { id: "lobuloTemporal", pista: "Audición, comprensión del lenguaje..." },
+    { id: "CortezaCerebral", pista: "Procesamiento de información compleja, pensamiento, memoria, lenguaje, percepción y toma de decisiones." },
+    { id: "lobuloFrontal", pista: "Toma de decisiones, razonamiento, planificación, control motor voluntario y lenguaje (área de Broca)." },
+    { id: "lobuloParietal", pista: "Procesamiento de información sensorial (tacto, presión, temperatura, dolor) y orientación espacial." },
+    { id: "lobuloTemporal", pista: "Audición, comprensión del lenguaje (área de Wernicke), memoria y reconocimiento de patrones visuales." },
     { id: "lobuloOccipital", pista: "Procesamiento de la información visual." },
-    { id: "gangliosBasales", pista: "Regulación y coordinación del movimiento..." },
-    { id: "SistemaLimbico", pista: "Regulación de emociones..." },
-    { id: "diencefalo", pista: "Incluye el tálamo y el hipotálamo..." },
-    { id: "mensefalo", pista: "Procesamiento de estímulos auditivos..." },
-    { id: "puentedeVarolio", pista: "Conecta diferentes partes del cerebro..." },
-    { id: "bulboraquideo", pista: "Control de funciones vitales..." },
-    { id: "cerebelo", pista: "Coordinación de movimientos..." }
+    { id: "gangliosBasales", pista: "Regulación y coordinación del movimiento voluntario, aprendizaje de hábitos y control postural." },
+    { id: "SistemaLimbico", pista: "Regulación de emociones, memoria y comportamiento. Incluye estructuras como el hipocampo y la amígdala." },
+    { id: "diencefalo", pista: "Incluye el tálamo y el hipotálamo; actúa como centro de relevo sensorial y regula funciones autonómicas y endocrinas." },
+    { id: "mensefalo", pista: "Procesamiento de estímulos auditivos y visuales, y control de movimientos oculares." },
+    { id: "puentedeVarolio", pista: "Conecta diferentes partes del cerebro, participa en la regulación del sueño y la respiración." },
+    { id: "bulboraquideo", pista: "Control de funciones vitales como la respiración, el ritmo cardíaco y la presión arterial." },
+    { id: "cerebelo", pista: "Coordinación de movimientos, equilibrio y precisión motora." }
   ];
 
   const funcionesContainer = document.getElementById("funciones");
+  const contenedorImagenes = document.getElementById("imagenes");
 
   funciones.forEach(({ id, pista }) => {
+    // Crear zona de función
     funcionesContainer.innerHTML += `
       <div class="zona-container">
         <div class="pista">Función: ${pista}</div>
@@ -46,9 +185,25 @@
         <div class="mensaje" id="msg-${id}"></div>
       </div>
     `;
+
+    // Crear imagen
+    const img = document.createElement("img");
+    img.src = `resource/${id}.jpg`;
+    img.id = id;
+    img.className = "imagen";
+    img.setAttribute("draggable", true);
+    img.ondragstart = empezarArrastre;
+
+    // Eventos touch
+    img.addEventListener("touchstart", touchStart);
+    img.addEventListener("touchmove", touchMove);
+    img.addEventListener("touchend", touchEnd);
+
+    contenedorImagenes.appendChild(img);
   });
 
-  let idArrastrado;
+  let idArrastrado = null;
+  let touchElemento = null;
 
   function empezarArrastre(event) {
     idArrastrado = event.target.id;
@@ -61,75 +216,65 @@
   function soltar(event) {
     event.preventDefault();
     const zona = event.currentTarget;
-    const correcta = zona.getAttribute('data-correcta');
+    const correcta = zona.getAttribute("data-correcta");
     const mensaje = document.getElementById(`msg-${correcta}`);
     const imagen = document.getElementById(idArrastrado);
 
     zona.innerHTML = '';
 
     if (idArrastrado === correcta) {
-      zona.classList.remove('incorrecto');
-      zona.classList.add('correcto');
+      zona.classList.remove("incorrecto");
+      zona.classList.add("correcto");
       zona.appendChild(imagen);
-      imagen.setAttribute('draggable', false);
+      imagen.setAttribute("draggable", false);
       mensaje.textContent = "✔️ ¡Bien hecho!";
     } else {
-      zona.classList.remove('correcto');
-      zona.classList.add('incorrecto');
+      zona.classList.remove("correcto");
+      zona.classList.add("incorrecto");
       mensaje.textContent = "❌ Esa imagen no corresponde.";
-      zona.textContent = "";
     }
   }
 
-  // SOPORTE PARA CELULAR (TOUCH)
-  const imagenes = document.querySelectorAll('.imagen');
-  imagenes.forEach(img => {
-    img.addEventListener('touchstart', e => {
-      idArrastrado = e.target.id;
-    });
-  });
+  // ----- Soporte Touch -----
+  function touchStart(e) {
+    idArrastrado = e.target.id;
+    touchElemento = e.target;
+  }
 
-  const zonas = document.querySelectorAll('.zona-drop');
-  zonas.forEach(zona => {
-    zona.addEventListener('touchmove', e => {
-      e.preventDefault();
-    }, { passive: false });
+  function touchMove(e) {
+    e.preventDefault();
+    const touch = e.touches[0];
+    touchElemento.style.position = "absolute";
+    touchElemento.style.zIndex = 1000;
+    touchElemento.style.left = `${touch.pageX - 45}px`;
+    touchElemento.style.top = `${touch.pageY - 45}px`;
+  }
 
-    zona.addEventListener('touchend', e => {
-      const touched = document.elementFromPoint(
-        e.changedTouches[0].clientX,
-        e.changedTouches[0].clientY
-      );
-      if (touched && touched.classList.contains('zona-drop')) {
-        idArrastrado && soltar({ preventDefault: () => {}, currentTarget: touched });
-      }
-    });
-  });
+  function touchEnd(e) {
+    const touch = e.changedTouches[0];
+    const elem = document.elementFromPoint(touch.clientX, touch.clientY);
+    if (elem && elem.classList.contains("zona-drop")) {
+      soltar({ preventDefault: () => {}, currentTarget: elem });
+    }
+
+    touchElemento.style.position = "";
+    touchElemento.style.zIndex = "";
+    touchElemento.style.left = "";
+    touchElemento.style.top = "";
+  }
 
   function reiniciarJuego() {
-    const contenedorImagenes = document.getElementById('imagenes');
     funciones.forEach(f => {
       const imagen = document.getElementById(f.id);
-      if (!imagen) {
-        const nuevaImg = document.createElement("img");
-        nuevaImg.src = `resource/${f.id}.jpg`;
-        nuevaImg.id = f.id;
-        nuevaImg.className = "imagen";
-        nuevaImg.setAttribute("draggable", "true");
-        nuevaImg.ondragstart = empezarArrastre;
-        nuevaImg.addEventListener("touchstart", e => idArrastrado = e.target.id);
-        contenedorImagenes.appendChild(nuevaImg);
-      } else {
-        imagen.setAttribute('draggable', 'true');
-        imagen.style.display = 'inline-block';
-        contenedorImagenes.appendChild(imagen);
-      }
+      imagen.setAttribute("draggable", true);
+      imagen.style.display = "inline-block";
+      contenedorImagenes.appendChild(imagen);
     });
 
     funciones.forEach(f => {
       const zona = document.getElementById(`zona-${f.id}`);
       const mensaje = document.getElementById(`msg-${f.id}`);
-      zona.className = 'zona-drop';
+      zona.className = "zona-drop";
       zona.innerHTML = '';
       mensaje.textContent = '';
     });
