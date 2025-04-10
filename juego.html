@@ -268,10 +268,26 @@
       zona.appendChild(imagen);
 
       // ✅ Bloqueamos la imagen correctamente colocada
-      imagen.setAttribute("draggable", false);
-      imagen.ontouchstart = null;
-      imagen.ontouchmove = null;
-      imagen.ontouchend = null;
+     if (idArrastrado === correcta) {
+  zona.classList.remove("incorrecto");
+  zona.classList.add("correcto");
+  zona.appendChild(imagen);
+
+  // ✅ Bloqueamos la imagen correctamente colocada
+  imagen.setAttribute("draggable", false);
+  imagen.ontouchstart = null;
+  imagen.ontouchmove = null;
+  imagen.ontouchend = null;
+
+  // ✅ Restauramos estilos para que se quede fija
+  imagen.style.position = "";
+  imagen.style.zIndex = "";
+  imagen.style.left = "";
+  imagen.style.top = "";
+
+  
+
+
 
       mensaje.textContent = "✔️ ¡Bien hecho!";
     } else {
